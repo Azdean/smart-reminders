@@ -1,0 +1,5 @@
+HelloWorldIntent hello
+HelloWorldIntent say hello
+HelloWorldIntent say hello world
+HelloWorldIntent say hi
+DateIntent what is the date {date}

@@ -1,2 +1,4 @@
 # smart-reminders
-Smart Reminders Alex Skill for Web Research
+Smart Reminders Alexa Skill for Web Research
+
+Uses the Google Calander API to set reminders.
