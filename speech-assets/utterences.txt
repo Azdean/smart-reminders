@@ -1,0 +1,3 @@
+DateIntent what is the date {date}
+UpdateIntent are there any updates for me?
+UpdateIntent
