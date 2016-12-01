@@ -5,7 +5,9 @@
   "main": "index.js",
   "dependencies": {
     "alexa-sdk": "^1.0.6",
-    "aws-sdk": "^2.7.7"
+    "aws-sdk": "^2.7.7",
+    "google-auth-library": "^0.9.10",
+    "googleapis": "^14.2.0"
   },
   "devDependencies": {},
   "scripts": {

@@ -1,60 +1,32 @@
 'use strict';
 
-// Using the Alexa Skills SDK here: https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs for easier development.
-var Alexa = require("alexa-sdk");
-const APP_ID = 'amzn1.ask.skill.c5b422b7-9f76-4474-82ad-69b79e80afaf';
+var Alexa = require("alexa-sdk"); // Using the Alexa Skills SDK here: https://github.com/alexa/alexa-skills-kit-sdk-for-nodejs for easier development.
+var google = require('googleapis');
+const appId = 'amzn1.ask.skill.ec6a00b8-d2d3-4aaa-8ec9-470c6f149202';
+var listEventsFunction = require('./listEventsFunction.js');
+
 // Handles incoming events
-exports.handler = function(event, context, callback) {
+exports.handler = function(event, context) {
+  // Validate that this request originated from authorized source.
+  if (event.session.application.applicationId !== appId) {
+      console.log("The applicationIds don't match : " + event.session.application.applicationId + " and " + this._appId);
+      throw "Invalid applicationId";
+  }
 
-    // Validate that this request originated from authorized source.
-    if (event.session.application.applicationId !== APP_ID) {
-        console.log("The applicationIds don't match : " + event.session.application.applicationId + " and "
-            + this._appId);
-        throw "Invalid applicationId";
-    }
-
-    //Assign the Alexa-SDK object to the alexa variable and pass in event and context
-    var alexa = Alexa.handler(event, context);
-    // Register our handlers to the Alexa object
-    alexa.registerHandlers(handlers);
-    // Execute the event using the handlers
-    alexa.execute();
+  //Assign the Alexa-SDK object to the alexa variable and pass in event and context
+  var alexa = Alexa.handler(event, context);
+  alexa.registerHandlers(handlers);
+  alexa.execute();
 };
 
-/*
-  Define the handlers for dealing with events using the following structure:
-  'intentname' : function(){
-    code goes here
-    this.emit('output');
-  }
-*/
+
+// Define the handlers for dealing with intents.
 var handlers = {
     'LaunchRequest': function () {
-        this.emit('SayHello');
+      this.emit(':tell', 'Welcome to Smart Reminders');
     },
-    'HelloWorldIntent': function () {
-        this.emit('SayHello')
-    },
-    'DateIntent': function () {
-      var date = new Date();
-      var month = {
-        1: 'January',
-        2: 'February',
-        3: 'March',
-        4: 'April',
-        5: 'May',
-        6: 'June',
-        7: 'July',
-        8: 'August',
-        9: 'September',
-        10: 'October',
-        11: 'November',
-        12: 'December'
-      };
-
-      this.emit(':tell', 'The date is ' + date.getDate() + ' of ' + month[date.getMonth()] + ' ' + date.getFullYear() );
-    },
-    'SayHello': function () {
-        this.emit(':tell', 'Hello Azzdeen!');
+    'UpdateMeIntent': function() {
+      console.log(this.event);
+      listEventsFunction(this.event, this);
     }
 };
