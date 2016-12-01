@@ -4,13 +4,7 @@
       "intent": "UpdateMeIntent"
     },
     {
-      "intent": "DateIntent",
-      "slots": [
-        {
-          "name": "date",
-          "type": "AMAZON.DATE"
-        }
-      ]
+      "intent": "NextReminderIntent"
     }
   ]
 }

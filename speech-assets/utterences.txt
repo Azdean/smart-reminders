@@ -1,13 +1,4 @@
-DateIntent what is the date {date}
-
 UpdateMeIntent are there any updates for me
-UpdateMeIntent are there any reminders for me
-UpdateMeIntent do I have any reminders
-UpdateMeIntent do I have any reminders upcoming
-UpdateMeIntent do I have any reminders coming up
-UpdateMeIntent what events do I have coming up
-UpdateMeIntent if there are there any updates for me
-UpdateMeIntent if there are there any reminders for me
-UpdateMeIntent if I have any reminders
-UpdateMeIntent if I have any reminders upcoming
-UpdateMeIntent if I have any reminders coming up
+UpdateMeIntent are there any reminders
+
+NextReminderIntent what is my next reminder

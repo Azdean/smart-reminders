@@ -14,7 +14,7 @@ module.exports = function listEvents (auth, callback) {
     calendarId: 'primary',
     timeMin: (new Date()).toISOString(),
     timeMax: endOfDay.toISOString(),
-    maxResults: 5,
+    maxResults: 1,
     singleEvents: true,
     orderBy: 'startTime'
   }, function (err, response) {

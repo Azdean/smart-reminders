@@ -4,6 +4,7 @@ var Alexa = require("alexa-sdk"); // Using the Alexa Skills SDK here: https://gi
 var google = require('googleapis');
 const appId = 'amzn1.ask.skill.ec6a00b8-d2d3-4aaa-8ec9-470c6f149202';
 var listEventsFunction = require('./listEventsFunction.js');
+var listNextEventFunction = require('./listNextEventFunction.js');
 
 // Handles incoming events
 exports.handler = function(event, context) {
@@ -15,6 +16,7 @@ exports.handler = function(event, context) {
 
   //Assign the Alexa-SDK object to the alexa variable and pass in event and context
   var alexa = Alexa.handler(event, context);
+  alexa.appId = appId;
   alexa.registerHandlers(handlers);
   alexa.execute();
 };
@@ -28,5 +30,9 @@ var handlers = {
     'UpdateMeIntent': function() {
       console.log(this.event);
       listEventsFunction(this.event, this);
+    },
+    'NextReminderIntent': function(){
+      console.log(this.event);
+      listNextEventFunction(this.event, this);
     }
 };
