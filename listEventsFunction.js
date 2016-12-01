@@ -24,18 +24,33 @@ function listEventsFunction(event, alexa) {
           alexa.emit(':tellWithLinkAccountCard', 'Please link Smart Reminders to your Google Account using the Alexa App');
         }
         listEvents(oauthClient, function (err, events) {
-            var eventNames = 'Here is your list of Events: ';
+            var eventNames = 'Here is your list of reminders: <break time="1s" />';
             if (err) {
               alexa.emit(':tell', err);
               return;
             }
-            var DateObject = new Date();
+
+            var month = {
+              0: 'January',
+              1: 'February',
+              2: 'March',
+              3: 'April',
+              4: 'May',
+              5: 'June',
+              6: 'July',
+              7: 'August',
+              8: 'September',
+              9: 'October',
+              10: 'November',
+              11: 'December'
+            };
+
             for (var i = 0; i < events.length; i++) {
               var event = events[i];
               var start = event.start.dateTime || event.start.date;
-              var date =  DateObject.parse(start);
+              var date =  new Date(start);
 
-              eventNames += 'On the ' + date.getDate() + ' ' + date.getMonth + ' ' + event.summary;
+              eventNames += '<break time="0.3s" />On ' + date.getDate() + ' ' + month[date.getMonth()] + '<break time="0.2s" /> at ' + date.toLocaleTimeString() + '<break time="0.2s" />' + event.summary;
             }
             alexa.emit(':tell', eventNames);
             return;

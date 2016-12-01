@@ -12,7 +12,8 @@ module.exports = function listEvents (auth, callback) {
     calendarId: 'primary',
     timeMin: (new Date()).toISOString(),
     maxResults: 5,
-    singleEvents: false
+    singleEvents: true,
+    orderBy: 'startTime'
   }, function (err, response) {
     if (err) {
       var apiError = 'The API returned an error: ' + err;
