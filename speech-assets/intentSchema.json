@@ -1,0 +1,16 @@
+{
+  "intents": [
+    {
+      "intent": "UpdateMeIntent"
+    },
+    {
+      "intent": "DateIntent",
+      "slots": [
+        {
+          "name": "date",
+          "type": "AMAZON.DATE"
+        }
+      ]
+    }
+  ]
+}
