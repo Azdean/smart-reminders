@@ -1,2 +1,2 @@
 # smart-reminders
-Smart Reminders Alex Skill for Web Research
+Smart Reminders Alexa Skill for Web Research
