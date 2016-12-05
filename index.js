@@ -28,11 +28,18 @@ var handlers = {
       this.emit(':tell', 'Welcome to Smart Reminders');
     },
     'UpdateMeIntent': function() {
-      console.log(this.event);
+      logEvent(this.event);
       listEventsFunction(this.event, this);
     },
     'NextReminderIntent': function(){
-      console.log(this.event);
+      logEvent(this.event);
       listNextEventFunction(this.event, this);
+    },
+    'testIntent': function(){
+
     }
 };
+
+function logEvent(event){
+  console.log(event);
+}
