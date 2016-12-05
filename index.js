@@ -4,7 +4,8 @@ var Alexa = require("alexa-sdk"); // Using the Alexa Skills SDK here: https://gi
 var google = require('googleapis');
 const appId = 'amzn1.ask.skill.ec6a00b8-d2d3-4aaa-8ec9-470c6f149202';
 var listEventsFunction = require('./listEventsFunction.js');
-var listNextEventFunction = require('./listNextEventFunction.js');
+var authorise = require('./google/authorise.js');
+var listNextEvent = require('./google/listNextEvent.js');
 
 // Handles incoming events
 exports.handler = function(event, context) {
@@ -33,13 +34,10 @@ var handlers = {
     },
     'NextReminderIntent': function(){
       logEvent(this.event);
-      listNextEventFunction(this.event, this);
-    },
-    'testIntent': function(){
-
+      authorise(this.event.session.user.accessToken, listNextEvent, this);
     }
 };
 
 function logEvent(event){
   console.log(event);
-}
+};
