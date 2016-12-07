@@ -59,10 +59,10 @@ function buildResponse(alexa, err, events) {
     var event = events[i];
     var start = event.start.dateTime || event.start.date;
     var date =  new Date(start);
-    console.log(event);
 
+    alexa.attributes['ID'] = event.id;
     eventNames +=  date.toLocaleTimeString() + '<break time="0.2s" />' + event.summary;
   }
-  alexa.emit(':tell', eventNames);
+  alexa.emit(':ask', (eventNames + '<break time="0.2s" />'), 'You can remove this reminder by saying, remove this event. <break time="0.2s" /> You can modify the event by saying, Modify this event.');
   return;
 };

@@ -5,6 +5,18 @@
     },
     {
       "intent": "NextReminderIntent"
+    },
+    {
+      "intent": "CancelEvent"
+    },
+    {
+      "intent": "ModifyEvent",
+      "slots": [
+        {
+          "name": "time",
+          "type": "AMAZON.TIME"
+        }
+      ]
     }
   ]
 }

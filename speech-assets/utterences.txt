@@ -2,3 +2,9 @@ UpdateMeIntent are there any updates for me
 UpdateMeIntent are there any reminders
 
 NextReminderIntent what is my next reminder
+
+CancelEvent remove that reminder
+CancelEvent remove the reminder
+
+ModifyEvent I finished that at {time}
+ModifyEvent I have already finished that

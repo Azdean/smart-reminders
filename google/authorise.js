@@ -26,6 +26,7 @@ module.exports = function authorize (token, callback, alexa) {
     if (token === undefined) {
       console.log('Token is undefined, please link the skill');
       alexa.emit(':tellWithLinkAccountCard', 'Please link Smart Reminders to your Google Account using the Alexa App');
+      return;
     }
     return callback(oauth2Client, alexa);
   });
