@@ -14,7 +14,7 @@ module.exports = function listEvents (auth, alexa) {
     calendarId: 'primary',
     timeMin: (new Date()).toISOString(),
     timeMax: endOfDay.toISOString(),
-    maxResults: 1,
+    maxResults: 5,
     singleEvents: true,
     orderBy: 'startTime'
   }, function (err, response) {
@@ -33,37 +33,35 @@ module.exports = function listEvents (auth, alexa) {
   });
 };
 
-function buildResponse(alexa, err, events) {
-  var eventNames = 'Your next reminder is at : <break time="0.3s" />';
-  if (err) {
-    alexa.emit(':tell', err);
+function buildResponse (alexa, err, events) {
+    var eventNames = 'Here is your list of reminders: <break time="1s" />';
+    if (err) {
+      alexa.emit(':tell', err);
+      return;
+    }
+
+    var month = {
+      0: 'January',
+      1: 'February',
+      2: 'March',
+      3: 'April',
+      4: 'May',
+      5: 'June',
+      6: 'July',
+      7: 'August',
+      8: 'September',
+      9: 'October',
+      10: 'November',
+      11: 'December'
+    };
+
+    for (var i = 0; i < events.length; i++) {
+      var event = events[i];
+      var start = event.start.dateTime || event.start.date;
+      var date =  new Date(start);
+
+      eventNames += '<break time="0.3s" />On ' + date.getDate() + ' ' + month[date.getMonth()] + '<break time="0.2s" /> at ' + date.toLocaleTimeString() + '<break time="0.2s" />' + event.summary;
+    }
+    alexa.emit(':tell', eventNames);
     return;
-  }
-
-  var month = {
-    0: 'January',
-    1: 'February',
-    2: 'March',
-    3: 'April',
-    4: 'May',
-    5: 'June',
-    6: 'July',
-    7: 'August',
-    8: 'September',
-    9: 'October',
-    10: 'November',
-    11: 'December'
-  };
-
-  for (var i = 0; i < events.length; i++) {
-    var event = events[i];
-    var start = event.start.dateTime || event.start.date;
-    var date =  new Date(start);
-
-    alexa.attributes['ID'] = event.id;
-    eventNames +=  date.toLocaleTimeString() + '<break time="0.2s" />' + event.summary;
-  }
-  alexa.handler.state = '_ASK';
-  alexa.emit(':ask', (eventNames + '<break time="0.2s" />'), 'You can remove this reminder by saying, remove this event. <break time="0.2s" /> You can modify the event by saying, Modify this event.');
-  return;
-};
+}
