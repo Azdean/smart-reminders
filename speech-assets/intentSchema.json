@@ -4,11 +4,17 @@
       "intent": "UpdateMeIntent"
     },
     {
-      "intent": "DateIntent",
+      "intent": "NextReminderIntent"
+    },
+    {
+      "intent": "CancelEvent"
+    },
+    {
+      "intent": "ModifyEvent",
       "slots": [
         {
-          "name": "date",
-          "type": "AMAZON.DATE"
+          "name": "time",
+          "type": "AMAZON.TIME"
         }
       ]
     }
