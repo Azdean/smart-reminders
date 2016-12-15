@@ -5,6 +5,12 @@ NextReminderIntent what is my next reminder
 
 CancelEvent remove that reminder
 CancelEvent remove the reminder
+CancelEvent I've already finished that
 
 ModifyEvent I finished that at {time}
-ModifyEvent I have already finished that
+
+SessionEndedRequest Thankyou Alexa
+SessionEndedRequest Awesome
+SessionEndedRequest That's all Alexa
+SessionEndedRequest That's all
+SessionEndedRequest Okay

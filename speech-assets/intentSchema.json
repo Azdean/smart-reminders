@@ -17,6 +17,9 @@
           "type": "AMAZON.TIME"
         }
       ]
+    },
+    {
+      "intent": "SessionEndedRequest"
     }
   ]
 }
