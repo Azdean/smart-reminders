@@ -7,7 +7,9 @@ var google = require('googleapis');
 module.exports = function modifyEvents (auth, alexa) {
   var service = google.calendar('v3');
 
-  var eventToModify = service.events.get({
+  console.log(alexa.attributes['ID']);
+
+  service.events.get({
       auth: auth,
       calendarId: 'primary',
       eventId: alexa.attributes['ID']
@@ -17,18 +19,81 @@ module.exports = function modifyEvents (auth, alexa) {
         return;
       }
 
-      var event = response;
-      var eventTime = new Date(event.start.dateTime);
-      var newHours = alexa.event.request.intent.slots.time.value.split(':')[0];
-      var newMinutes = alexa.event.request.intent.slots.time.value.split(':')[1];
+      if(response.recurringEventId){
+        service.events.instances({
+          auth: auth,
+          calendarId: 'primary',
+          eventId: response.recurringEventId,
+          maxResults: 10
+        }, function(err, response) {
+            var events = response.items;
 
-      eventTime.setUTCHours(newHours, newMinutes);
+            var errorFlag = false;
+            for(var i=0; i < events.length; i++){
+              var event = events[i];
 
-      event.start.dateTime = eventTime.toISOString();
+              var eventStartTime = new Date(event.start.dateTime);
+              var eventEndTime = new Date(event.end.dateTime);
+              var timeDifference =   eventEndTime.getTime() - eventStartTime.getTime();
 
-      console.log(event);
+              var newHours = alexa.event.request.intent.slots.time.value.split(':')[0];
+              var newMinutes = alexa.event.request.intent.slots.time.value.split(':')[1];
+
+              eventStartTime.setUTCHours(newHours, newMinutes);
+              eventEndTime.setTime((eventStartTime.getTime() + timeDifference));
+
+              event.start.dateTime = eventStartTime.toISOString();
+              event.end.dateTime = eventEndTime.toISOString();
+
+              service.events.update({
+                  auth: auth,
+                  calendarId: 'primary',
+                  eventId: event.id,
+                  resource: event
+              }, function(err, response){
+                if(err){
+                 console.log(err);
+                 errorFlag = true;
+                }
+              });
+            }
+
+            if(errorFlag){
+              alexa.emit(':tell', 'Smart Reminders encountered an error, please try again later.');
+            } else {
+              alexa.emit(':tell', ('I have updated the reminder so that it reoccurs at <say-as interpret-as="time">' + alexa.event.request.intent.slots.time.value + '</say-as>'));
+            }
+          });
+      } else {
+        var event = response;
+        var eventStartTime = new Date(event.start.dateTime);
+        var eventEndTime = new Date(event.end.dateTime);
+        var timeDifference =   eventEndTime.getTime() - eventStartTime.getTime();
+
+        var newHours = alexa.event.request.intent.slots.time.value.split(':')[0];
+        var newMinutes = alexa.event.request.intent.slots.time.value.split(':')[1];
+
+        eventStartTime.setUTCHours(newHours, newMinutes);
+        eventEndTime.setTime((eventStartTime.getTime() + timeDifference));
+
+        event.start.dateTime = eventStartTime.toISOString();
+        event.end.dateTime = eventEndTime.toISOString();
+
+        console.log(event);
 
 
-      alexa.emit(':tell', 'Check the logs');
+        service.events.update({
+            auth: auth,
+            calendarId: 'primary',
+            eventId: alexa.attributes['ID'],
+            resource: event
+        }, function(err, response){
+          if(err){
+           console.log(err);
+           alexa.emit(':tell', 'An error occured, please see the logs');
+          }
+          alexa.emit(':tell', ('I have updated the reminder so that it reoccurs at <say-as interpret-as="time">' + alexa.event.request.intent.slots.time.value + '</say-as>'));
+        });
+      }
     });
   };

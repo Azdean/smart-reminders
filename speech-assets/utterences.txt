@@ -13,3 +13,4 @@ SessionEndedRequest Thankyou Alexa
 SessionEndedRequest Awesome
 SessionEndedRequest That's all Alexa
 SessionEndedRequest That's all
+SessionEndedRequest Okay
